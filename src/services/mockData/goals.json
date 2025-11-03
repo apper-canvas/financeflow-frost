@@ -1,0 +1,47 @@
+[
+  {
+    "Id": 1,
+    "name": "Emergency Fund",
+    "targetAmount": 10000.00,
+    "currentAmount": 6500.00,
+    "deadline": "2024-12-31T00:00:00Z",
+    "category": "Emergency Fund",
+    "status": "active"
+  },
+  {
+    "Id": 2,
+    "name": "Europe Vacation",
+    "targetAmount": 5000.00,
+    "currentAmount": 2100.00,
+    "deadline": "2024-06-15T00:00:00Z",
+    "category": "Vacation",
+    "status": "active"
+  },
+  {
+    "Id": 3,
+    "name": "New Car Down Payment",
+    "targetAmount": 8000.00,
+    "currentAmount": 3200.00,
+    "deadline": "2024-09-01T00:00:00Z",
+    "category": "Car",
+    "status": "active"
+  },
+  {
+    "Id": 4,
+    "name": "Home Renovation",
+    "targetAmount": 15000.00,
+    "currentAmount": 4800.00,
+    "deadline": "2025-03-01T00:00:00Z",
+    "category": "Home",
+    "status": "active"
+  },
+  {
+    "Id": 5,
+    "name": "Professional Course",
+    "targetAmount": 2500.00,
+    "currentAmount": 2500.00,
+    "deadline": "2024-02-01T00:00:00Z",
+    "category": "Education",
+    "status": "completed"
+  }
+]
