@@ -191,5 +191,3 @@ class AccountService {
 }
 
 export const accountService = new AccountService();
-
-export const accountService = new AccountService();

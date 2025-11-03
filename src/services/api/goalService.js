@@ -191,5 +191,3 @@ class GoalService {
 }
 
 export const goalService = new GoalService();
-
-export const goalService = new GoalService();
