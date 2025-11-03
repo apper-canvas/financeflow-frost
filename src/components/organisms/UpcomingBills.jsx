@@ -14,12 +14,13 @@ const UpcomingBills = ({ bills = [] }) => {
   const today = new Date();
   const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
   
-  const upcomingBills = bills
+const upcomingBills = bills
     .filter(bill => {
-      const dueDate = new Date(bill.dueDate);
-      return !bill.isPaid && dueDate >= today && dueDate <= nextWeek;
+      const dueDate = new Date(bill.due_date_c || bill.dueDate);
+      const isPaid = bill.is_paid_c !== undefined ? bill.is_paid_c : bill.isPaid;
+      return !isPaid && dueDate >= today && dueDate <= nextWeek;
     })
-    .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+    .sort((a, b) => new Date(a.due_date_c || a.dueDate) - new Date(b.due_date_c || b.dueDate))
     .slice(0, 5);
 
   const getDaysUntilDue = (dueDate) => {
@@ -87,12 +88,12 @@ const UpcomingBills = ({ bills = [] }) => {
             >
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                  <ApperIcon name={getBillIcon(bill.category)} size={16} className="text-primary" />
+<ApperIcon name={getBillIcon(bill.category_c || bill.category)} size={16} className="text-primary" />
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">{bill.name}</p>
+                  <p className="font-medium text-gray-900">{bill.name_c || bill.name}</p>
                   <div className="flex items-center gap-2">
-                    <p className="text-sm text-gray-500">Due {formatDate(bill.dueDate)}</p>
+                    <p className="text-sm text-gray-500">Due {formatDate(bill.due_date_c || bill.dueDate)}</p>
                     <Badge variant={status.variant}>{status.text}</Badge>
                   </div>
                 </div>

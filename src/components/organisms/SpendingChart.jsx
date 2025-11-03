@@ -25,13 +25,13 @@ const SpendingChart = ({ transactions }) => {
           return;
         }
 
-        // Process spending by category
+// Process spending by category
         const categorySpending = {};
         transactions
-          .filter(t => t.type === "expense")
+          .filter(t => (t.type_c || t.type) === "expense")
           .forEach(transaction => {
-            const category = transaction.category;
-            categorySpending[category] = (categorySpending[category] || 0) + Math.abs(transaction.amount);
+            const category = transaction.category_c || transaction.category;
+            categorySpending[category] = (categorySpending[category] || 0) + Math.abs(transaction.amount_c || transaction.amount);
           });
 
         const series = Object.values(categorySpending);

@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import Card from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
+import React from "react";
 import ApperIcon from "@/components/ApperIcon";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Transactions from "@/components/pages/Transactions";
 import { formatCurrency, formatDate } from "@/utils/formatters";
 import { cn } from "@/utils/cn";
 
@@ -61,53 +63,65 @@ const RecentTransactions = ({ transactions = [] }) => {
 
   return (
     <Card>
-      <div className="flex items-center justify-between mb-6">
+    <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-gray-900">Recent Transactions</h3>
-        <Button variant="ghost" size="sm" onClick={() => navigate("/transactions")}>
-          View All
-        </Button>
-      </div>
-      
-      <div className="space-y-4">
-        {recentTransactions.map((transaction, index) => (
-          <motion.div
+        <Button variant="ghost" size="sm" onClick={() => navigate("/transactions")}>View All
+                    </Button>
+    </div>
+    <div className="space-y-4">
+        {recentTransactions.map((transaction, index) => <motion.div
             key={transaction.Id}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors"
-          >
-            <div className="flex items-center space-x-3">
-              <div className={cn("w-10 h-10 rounded-full flex items-center justify-center", getCategoryColor(transaction.category))}>
-                <ApperIcon name={getCategoryIcon(transaction.category)} size={16} />
-              </div>
-              <div>
-                <p className="font-medium text-gray-900">{transaction.description}</p>
-                <div className="flex items-center gap-2">
-                  <p className="text-sm text-gray-500">{formatDate(transaction.date)}</p>
-                  <Badge variant="default">{transaction.category}</Badge>
+            initial={{
+                opacity: 0,
+                x: -20
+            }}
+            animate={{
+                opacity: 1,
+                x: 0
+            }}
+            transition={{
+                delay: index * 0.05
+            }}
+            className="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-100 hover:border-gray-200 transition-colors cursor-pointer"
+            onClick={() => navigate("/transactions")}>
+            <div className="flex items-center gap-4">
+                <div
+                    className={cn(
+                        "w-10 h-10 rounded-full flex items-center justify-center",
+                        getCategoryColor(transaction.category_c || transaction.category)
+                    )}>
+                    <ApperIcon
+                        name={getCategoryIcon(transaction.category_c || transaction.category)}
+                        size={16} />
                 </div>
-              </div>
+                <div>
+                    <p className="font-medium text-gray-900">{transaction.description_c || transaction.description}</p>
+                    <div className="flex items-center gap-2">
+                        <p className="text-sm text-gray-500">{formatDate(transaction.date_c || transaction.date)}</p>
+                        <Badge variant="default">{transaction.category_c || transaction.category}</Badge>
+                    </div>
+                </div>
             </div>
             <div className="text-right">
-              <p className={cn(
-                "font-semibold",
-                transaction.type === "income" ? "text-success" : "text-error"
-              )}>
-                {transaction.type === "income" ? "+" : "-"}{formatCurrency(Math.abs(transaction.amount))}
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-      
-      <div className="mt-6 pt-4 border-t border-gray-100">
-        <Button variant="ghost" size="sm" onClick={() => navigate("/transactions")} className="w-full">
-          View All Transactions
-          <ApperIcon name="ArrowRight" size={16} className="ml-2" />
+                <p
+                    className={cn(
+                        "font-semibold",
+                        (transaction.type_c || transaction.type) === "income" ? "text-success" : "text-error"
+                    )}>
+                    {(transaction.type_c || transaction.type) === "income" ? "+" : "-"}{formatCurrency(Math.abs(transaction.amount_c || transaction.amount))}
+                </p></div>
+        </motion.div>)}
+    </div>
+    <div className="mt-6 pt-4 border-t border-gray-100">
+        <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate("/transactions")}
+            className="w-full">View All Transactions
+                      <ApperIcon name="ArrowRight" size={16} className="ml-2" />
         </Button>
-      </div>
-    </Card>
+    </div>
+</Card>
   );
 };
 

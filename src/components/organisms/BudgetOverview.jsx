@@ -11,15 +11,20 @@ const BudgetOverview = ({ budgets = [], transactions = [] }) => {
   
   // Calculate spending for each budget category
   const budgetsWithSpending = budgets.map(budget => {
+    const category = budget.category_c || budget.category;
+    const allocated = budget.allocated_c || budget.allocated;
+    
     const categorySpending = transactions
-      .filter(t => t.category === budget.category && t.type === "expense")
-      .reduce((sum, t) => sum + Math.abs(t.amount), 0);
+      .filter(t => (t.category_c || t.category) === category && (t.type_c || t.type) === "expense")
+      .reduce((sum, t) => sum + Math.abs(t.amount_c || t.amount), 0);
     
     return {
       ...budget,
+      category: category,
+      allocated: allocated,
       spent: categorySpending,
-      remaining: Math.max(0, budget.allocated - categorySpending),
-      percentage: budget.allocated > 0 ? (categorySpending / budget.allocated) * 100 : 0
+      remaining: Math.max(0, allocated - categorySpending),
+      percentage: allocated > 0 ? (categorySpending / allocated) * 100 : 0
     };
   }).slice(0, 4); // Show top 4 budgets
 

@@ -27,14 +27,14 @@ const Transactions = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedType, setSelectedType] = useState("");
   
-  const [formData, setFormData] = useState({
-    accountId: "",
-    date: new Date().toISOString().split('T')[0],
-    description: "",
-    amount: "",
-    category: "",
-    type: "expense",
-    notes: ""
+const [formData, setFormData] = useState({
+    account_id_c: "",
+    date_c: new Date().toISOString().split('T')[0],
+    description_c: "",
+    amount_c: "",
+    category_c: "",
+    type_c: "expense",
+    notes_c: ""
   });
 
   const categories = [
@@ -74,22 +74,22 @@ const Transactions = () => {
     }
 
     try {
-      const transactionData = {
+const transactionData = {
         ...formData,
-        amount: parseFloat(formData.amount),
-        date: new Date(formData.date).toISOString()
+        amount_c: parseFloat(formData.amount_c),
+        date_c: new Date(formData.date_c).toISOString()
       };
 
       const newTransaction = await transactionService.create(transactionData);
       setTransactions([newTransaction, ...transactions]);
-      setFormData({
-        accountId: "",
-        date: new Date().toISOString().split('T')[0],
-        description: "",
-        amount: "",
-        category: "",
-        type: "expense",
-        notes: ""
+setFormData({
+        account_id_c: "",
+        date_c: new Date().toISOString().split('T')[0],
+        description_c: "",
+        amount_c: "",
+        category_c: "",
+        type_c: "expense",
+        notes_c: ""
       });
       setShowAddForm(false);
       toast.success("Transaction added successfully!");
@@ -141,10 +141,14 @@ const Transactions = () => {
   };
 
   // Filter transactions
-  const filteredTransactions = transactions.filter(transaction => {
-    const matchesSearch = transaction.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         transaction.notes?.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = !selectedCategory || transaction.category === selectedCategory;
+const filteredTransactions = transactions.filter(transaction => {
+    const description = transaction.description_c || transaction.description || "";
+    const notes = transaction.notes_c || transaction.notes || "";
+    const category = transaction.category_c || transaction.category || "";
+    
+    const matchesSearch = description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         notes.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = !selectedCategory || category === selectedCategory;
     const matchesType = !selectedType || transaction.type === selectedType;
     
     return matchesSearch && matchesCategory && matchesType;
@@ -185,8 +189,8 @@ const Transactions = () => {
                 >
                   <option value="">Select account</option>
                   {accounts.map(account => (
-                    <option key={account.Id} value={account.Id}>
-                      {account.name} ({account.type})
+<option key={account.Id} value={account.Id}>
+                      {account.name_c || account.name} ({account.type_c || account.type})
                     </option>
                   ))}
                 </Select>
@@ -329,29 +333,29 @@ const Transactions = () => {
                   >
                     <td className="py-4 px-2">
                       <div className="flex items-center space-x-3">
-                        <div className={cn("w-10 h-10 rounded-full flex items-center justify-center", getCategoryColor(transaction.category))}>
-                          <ApperIcon name={getCategoryIcon(transaction.category)} size={16} />
+<div className={cn("w-10 h-10 rounded-full flex items-center justify-center", getCategoryColor(transaction.category_c || transaction.category))}>
+                          <ApperIcon name={getCategoryIcon(transaction.category_c || transaction.category)} size={16} />
                         </div>
                         <div>
-                          <p className="font-medium text-gray-900">{transaction.description}</p>
-                          {transaction.notes && (
-                            <p className="text-sm text-gray-500">{transaction.notes}</p>
+                          <p className="font-medium text-gray-900">{transaction.description_c || transaction.description}</p>
+                          {(transaction.notes_c || transaction.notes) && (
+                            <p className="text-sm text-gray-500">{transaction.notes_c || transaction.notes}</p>
                           )}
                         </div>
                       </div>
                     </td>
                     <td className="py-4 px-2">
-                      <Badge variant="default">{transaction.category}</Badge>
+<Badge variant="default">{transaction.category_c || transaction.category}</Badge>
                     </td>
                     <td className="py-4 px-2 text-gray-600">
-                      {formatDate(transaction.date)}
+{formatDate(transaction.date_c || transaction.date)}
                     </td>
                     <td className="py-4 px-2 text-right">
                       <span className={cn(
-                        "font-semibold",
-                        transaction.type === "income" ? "text-success" : "text-error"
+"font-semibold",
+                        (transaction.type_c || transaction.type) === "income" ? "text-success" : "text-error"
                       )}>
-                        {transaction.type === "income" ? "+" : "-"}{formatCurrency(Math.abs(transaction.amount))}
+                        {(transaction.type_c || transaction.type) === "income" ? "+" : "-"}{formatCurrency(Math.abs(transaction.amount_c || transaction.amount))}
                       </span>
                     </td>
                     <td className="py-4 px-2 text-center">

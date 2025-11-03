@@ -23,7 +23,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+useEffect(() => {
     const loadDashboardData = async () => {
       try {
         setLoading(true);
@@ -37,12 +37,13 @@ const Dashboard = () => {
           billService.getAll()
         ]);
 
-        setAccounts(accountsData);
-        setTransactions(transactionsData);
-        setBudgets(budgetsData);
-        setGoals(goalsData);
-        setBills(billsData);
+        setAccounts(accountsData || []);
+        setTransactions(transactionsData || []);
+        setBudgets(budgetsData || []);
+        setGoals(goalsData || []);
+        setBills(billsData || []);
       } catch (err) {
+        console.error("Error loading dashboard data:", err);
         setError("Failed to load dashboard data");
       } finally {
         setLoading(false);

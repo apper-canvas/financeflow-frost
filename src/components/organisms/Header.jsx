@@ -1,19 +1,15 @@
 import { useState, useEffect } from 'react'
 import { motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useAuth } from "@/layouts/Root";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
 import { cn } from "@/utils/cn";
 
 const Header = ({ onMobileMenuToggle }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    // Check authentication status from localStorage or your auth system
-    const authToken = localStorage.getItem('authToken');
-    const userSession = localStorage.getItem('userSession');
-    setIsAuthenticated(!!authToken || !!userSession);
-  }, []);
+  const { isAuthenticated } = useSelector(state => state.user);
+  const { logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -76,17 +72,23 @@ const navigationItems = [
 {/* Desktop Actions */}
 <div className="hidden lg:flex items-center space-x-4">
               {isAuthenticated ? (
-                <Button variant="ghost" size="sm" onClick={() => navigate("/dashboard")} className="flex items-center gap-2">
-                  <ApperIcon name="LayoutDashboard" size={16} />
-                  Dashboard
-                </Button>
+                <>
+                  <Button variant="ghost" size="sm" onClick={() => navigate("/dashboard")} className="flex items-center gap-2">
+                    <ApperIcon name="LayoutDashboard" size={16} />
+                    Dashboard
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={logout} className="flex items-center gap-2">
+                    <ApperIcon name="LogOut" size={16} />
+                    Logout
+                  </Button>
+                </>
               ) : (
                 <>
-                  <Button variant="ghost" size="sm" className="flex items-center gap-2">
+                  <Button variant="ghost" size="sm" onClick={() => navigate("/login")} className="flex items-center gap-2">
                     <ApperIcon name="LogIn" size={16} />
                     Log In
                   </Button>
-                  <Button size="sm" className="flex items-center gap-2">
+                  <Button size="sm" onClick={() => navigate("/signup")} className="flex items-center gap-2">
                     <ApperIcon name="UserPlus" size={16} />
                     Sign Up Free
                   </Button>
@@ -160,17 +162,23 @@ const navigationItems = [
             </nav>
 <div className="p-4 border-t border-gray-200">
               {isAuthenticated ? (
-                <Button variant="ghost" onClick={() => navigate("/dashboard")} className="w-full flex items-center justify-center gap-2">
-                  <ApperIcon name="LayoutDashboard" size={16} />
-                  Dashboard
-                </Button>
+                <>
+                  <Button variant="ghost" onClick={() => navigate("/dashboard")} className="w-full flex items-center justify-center gap-2 mb-2">
+                    <ApperIcon name="LayoutDashboard" size={16} />
+                    Dashboard
+                  </Button>
+                  <Button variant="ghost" onClick={logout} className="w-full flex items-center justify-center gap-2">
+                    <ApperIcon name="LogOut" size={16} />
+                    Logout
+                  </Button>
+                </>
               ) : (
                 <>
-                  <Button variant="ghost" className="w-full flex items-center justify-center gap-2 mb-2">
+                  <Button variant="ghost" onClick={() => navigate("/login")} className="w-full flex items-center justify-center gap-2 mb-2">
                     <ApperIcon name="LogIn" size={16} />
                     Log In
                   </Button>
-                  <Button className="w-full flex items-center justify-center gap-2">
+                  <Button onClick={() => navigate("/signup")} className="w-full flex items-center justify-center gap-2">
                     <ApperIcon name="UserPlus" size={16} />
                     Sign Up Free
                   </Button>

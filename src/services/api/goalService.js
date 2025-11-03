@@ -1,55 +1,195 @@
-import goalsData from "@/services/mockData/goals.json";
+import { getApperClient } from "@/services/apperClient";
+import { toast } from "react-toastify";
 
 class GoalService {
   constructor() {
-    this.goals = [...goalsData];
+    this.tableName = "goal_c";
   }
 
   async getAll() {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    return [...this.goals];
+    try {
+      const apperClient = getApperClient();
+      const response = await apperClient.fetchRecords(this.tableName, {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "name_c"}},
+          {"field": {"Name": "target_amount_c"}},
+          {"field": {"Name": "current_amount_c"}},
+          {"field": {"Name": "deadline_c"}},
+          {"field": {"Name": "category_c"}},
+          {"field": {"Name": "status_c"}}
+        ]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return [];
+      }
+
+      return response.data || [];
+    } catch (error) {
+      console.error("Error fetching goals:", error?.response?.data?.message || error);
+      return [];
+    }
   }
 
   async getById(id) {
-    await new Promise(resolve => setTimeout(resolve, 200));
-    const goal = this.goals.find(goal => goal.Id === parseInt(id));
-    return goal ? { ...goal } : null;
+    try {
+      const apperClient = getApperClient();
+      const response = await apperClient.getRecordById(this.tableName, id, {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "name_c"}},
+          {"field": {"Name": "target_amount_c"}},
+          {"field": {"Name": "current_amount_c"}},
+          {"field": {"Name": "deadline_c"}},
+          {"field": {"Name": "category_c"}},
+          {"field": {"Name": "status_c"}}
+        ]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        return null;
+      }
+
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching goal ${id}:`, error?.response?.data?.message || error);
+      return null;
+    }
   }
 
   async create(goalData) {
-    await new Promise(resolve => setTimeout(resolve, 400));
-    const maxId = Math.max(...this.goals.map(goal => goal.Id), 0);
-    const newGoal = {
-      Id: maxId + 1,
-      ...goalData
-    };
-    this.goals.push(newGoal);
-    return { ...newGoal };
+    try {
+      const apperClient = getApperClient();
+      
+      // Only include updateable fields
+      const cleanData = {
+        name_c: goalData.name_c || goalData.name,
+        target_amount_c: parseFloat(goalData.target_amount_c || goalData.targetAmount || 0),
+        current_amount_c: parseFloat(goalData.current_amount_c || goalData.currentAmount || 0),
+        deadline_c: goalData.deadline_c || goalData.deadline,
+        category_c: goalData.category_c || goalData.category,
+        status_c: goalData.status_c || goalData.status || "active"
+      };
+
+      const response = await apperClient.createRecord(this.tableName, {
+        records: [cleanData]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+
+      if (response.results) {
+        const successful = response.results.filter(r => r.success);
+        const failed = response.results.filter(r => !r.success);
+        
+        if (failed.length > 0) {
+          console.error(`Failed to create ${failed.length} goals:`, failed);
+          failed.forEach(record => {
+            record.errors?.forEach(error => toast.error(`${error.fieldLabel}: ${error}`));
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        return successful[0]?.data || null;
+      }
+      
+      return null;
+    } catch (error) {
+      console.error("Error creating goal:", error?.response?.data?.message || error);
+      return null;
+    }
   }
 
   async update(id, goalData) {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    const index = this.goals.findIndex(goal => goal.Id === parseInt(id));
-    if (index !== -1) {
-      this.goals[index] = { 
-        ...this.goals[index], 
-        ...goalData, 
-        Id: parseInt(id)
+    try {
+      const apperClient = getApperClient();
+      
+      // Only include updateable fields
+      const cleanData = {
+        Id: parseInt(id),
+        name_c: goalData.name_c || goalData.name,
+        target_amount_c: parseFloat(goalData.target_amount_c || goalData.targetAmount || 0),
+        current_amount_c: parseFloat(goalData.current_amount_c || goalData.currentAmount || 0),
+        deadline_c: goalData.deadline_c || goalData.deadline,
+        category_c: goalData.category_c || goalData.category,
+        status_c: goalData.status_c || goalData.status
       };
-      return { ...this.goals[index] };
+
+      const response = await apperClient.updateRecord(this.tableName, {
+        records: [cleanData]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+
+      if (response.results) {
+        const successful = response.results.filter(r => r.success);
+        const failed = response.results.filter(r => !r.success);
+        
+        if (failed.length > 0) {
+          console.error(`Failed to update ${failed.length} goals:`, failed);
+          failed.forEach(record => {
+            record.errors?.forEach(error => toast.error(`${error.fieldLabel}: ${error}`));
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        return successful[0]?.data || null;
+      }
+      
+      return null;
+    } catch (error) {
+      console.error("Error updating goal:", error?.response?.data?.message || error);
+      return null;
     }
-    return null;
   }
 
   async delete(id) {
-    await new Promise(resolve => setTimeout(resolve, 250));
-    const index = this.goals.findIndex(goal => goal.Id === parseInt(id));
-    if (index !== -1) {
-      this.goals.splice(index, 1);
-      return true;
+    try {
+      const apperClient = getApperClient();
+      
+      const response = await apperClient.deleteRecord(this.tableName, {
+        RecordIds: [parseInt(id)]
+      });
+
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return false;
+      }
+
+      if (response.results) {
+        const successful = response.results.filter(r => r.success);
+        const failed = response.results.filter(r => !r.success);
+        
+        if (failed.length > 0) {
+          console.error(`Failed to delete ${failed.length} goals:`, failed);
+          failed.forEach(record => {
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        return successful.length > 0;
+      }
+      
+      return false;
+    } catch (error) {
+      console.error("Error deleting goal:", error?.response?.data?.message || error);
+      return false;
     }
-    return false;
   }
 }
+
+export const goalService = new GoalService();
 
 export const goalService = new GoalService();
