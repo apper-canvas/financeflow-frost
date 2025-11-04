@@ -1,0 +1,122 @@
+[
+  {
+    "Id": 1,
+    "name": "Sarah Johnson",
+    "company": "Tech Innovations Inc.",
+    "position": "CEO",
+    "rating": 5,
+    "content": "FinanceFlow has completely transformed how we manage our company finances. The budgeting tools are intuitive and the analytics provide incredible insights into our spending patterns. Highly recommended!"
+  },
+  {
+    "Id": 2,
+    "name": "Michael Chen",
+    "company": "Creative Solutions",
+    "position": "Marketing Director",
+    "rating": 5,
+    "content": "The goal tracking feature helped me save for my first home. Being able to visualize my progress and get spending recommendations made all the difference. This app is a game-changer!"
+  },
+  {
+    "Id": 3,
+    "name": "Emily Rodriguez",
+    "company": "Rodriguez Consulting",
+    "position": "Small Business Owner",
+    "rating": 4,
+    "content": "I love the bill tracking functionality. Never miss a payment again! The notifications are perfectly timed and the interface is clean and professional. Great tool for busy entrepreneurs."
+  },
+  {
+    "Id": 4,
+    "name": "David Thompson",
+    "company": "Thompson Financial",
+    "position": "Financial Advisor",
+    "rating": 5,
+    "content": "As a financial advisor, I recommend FinanceFlow to all my clients. The comprehensive dashboard and detailed transaction categorization provide excellent financial oversight. Professional grade software."
+  },
+  {
+    "Id": 5,
+    "name": "Lisa Wang",
+    "company": "Digital Marketing Pro",
+    "position": "Freelancer",
+    "rating": 5,
+    "content": "Managing irregular freelance income was always challenging until I found FinanceFlow. The budgeting tools adapt to variable income and the analytics help me make smarter financial decisions."
+  },
+  {
+    "Id": 6,
+    "name": "James Miller",
+    "company": "Miller & Associates",
+    "position": "Business Owner",
+    "rating": 4,
+    "content": "The transaction tracking is incredibly detailed and the categorization saves me hours during tax season. The user experience is smooth and the mobile app works flawlessly."
+  },
+  {
+    "Id": 7,
+    "name": "Amanda Foster",
+    "company": "Foster Design Studio",
+    "position": "Creative Director",
+    "rating": 5,
+    "content": "Beautiful interface combined with powerful functionality. The spending charts and budget visualization help me understand my financial patterns at a glance. Exactly what I needed!"
+  },
+  {
+    "Id": 8,
+    "name": "Robert Kim",
+    "company": "Kim Investment Group",
+    "position": "Investment Manager",
+    "rating": 5,
+    "content": "The analytics and reporting features are outstanding. Being able to track multiple goals simultaneously while monitoring spending across different categories provides excellent financial control."
+  },
+  {
+    "Id": 9,
+    "name": "Jennifer Adams",
+    "company": "Adams Accounting",
+    "position": "CPA",
+    "rating": 4,
+    "content": "I appreciate the attention to detail in transaction categorization and the ability to export data for tax preparation. The bill reminder system has saved me from late fees multiple times."
+  },
+  {
+    "Id": 10,
+    "name": "Mark Wilson",
+    "company": "Wilson Enterprises",
+    "position": "Entrepreneur",
+    "rating": 5,
+    "content": "FinanceFlow strikes the perfect balance between simplicity and functionality. The dashboard provides immediate insights while the detailed analytics satisfy my need for comprehensive financial data."
+  },
+  {
+    "Id": 11,
+    "name": "Rachel Green",
+    "company": "Green Marketing",
+    "position": "Marketing Consultant",
+    "rating": 4,
+    "content": "The goal setting and progress tracking features motivated me to finally build an emergency fund. The visual progress indicators and milestone celebrations make saving money actually enjoyable."
+  },
+  {
+    "Id": 12,
+    "name": "Alex Martinez",
+    "company": "Martinez Tech Solutions",
+    "position": "Software Developer",
+    "rating": 5,
+    "content": "As someone who appreciates good software design, FinanceFlow impresses me with its clean architecture and responsive interface. The API integrations work seamlessly with my bank accounts."
+  },
+  {
+    "Id": 13,
+    "name": "Diana Brooks",
+    "company": "Brooks Interior Design",
+    "position": "Interior Designer",
+    "rating": 4,
+    "content": "The budget allocation tools helped me balance business expenses with personal savings goals. The monthly reports provide clear insights into spending trends and areas for improvement."
+  },
+  {
+    "Id": 14,
+    "name": "Steven Clark",
+    "company": "Clark Construction",
+    "position": "Project Manager",
+    "rating": 5,
+    "content": "Managing project budgets and personal finances in one place is incredibly convenient. The expense tracking and categorization features provide the detailed oversight I need for both business and personal use."
+  },
+  {
+    "Id": 15,
+    "name": "Nicole Taylor",
+    "company": "Taylor & Associates Law",
+    "position": "Attorney",
+    "rating": 5,
+    "content": "Professional-grade financial management with enterprise-level security. The detailed audit trails and comprehensive reporting satisfy both personal financial management and business compliance requirements."
+  }
+]
